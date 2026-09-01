@@ -6,17 +6,17 @@
 class Moss < Formula
   desc "Turn a folder of markdown notes into a website"
   homepage "https://mosspub.com"
-  version "0.12.0"
+  version "0.12.1"
   license "MIT"
 
   on_macos do
-    url "https://github.com/Symbiosis-Lab/moss-releases/releases/download/v0.12.0/moss-darwin-universal"
-    sha256 "0640ee7dd146cb825184257d1300e72a1bcca0b1050d6d3817e04728c6f99a85"
+    url "https://github.com/Symbiosis-Lab/moss-releases/releases/download/v0.12.1/moss-darwin-universal"
+    sha256 "ebcb3817bee032391ceafe4d31341a22556878e2faffe58e3d4405971c12a1e6"
   end
 
   on_linux do
-    url "https://github.com/Symbiosis-Lab/moss-releases/releases/download/v0.12.0/moss-linux-x86_64"
-    sha256 "75359a28818271599443c06602e67b6912a9098bd35266cdbdb8b8a35c5f236d"
+    url "https://github.com/Symbiosis-Lab/moss-releases/releases/download/v0.12.1/moss-linux-x86_64"
+    sha256 "ad103255685f564161aacd54fb9373c253ca5ece46ba8a4bd9c8e460922f9904"
 
     depends_on arch: :x86_64
   end
