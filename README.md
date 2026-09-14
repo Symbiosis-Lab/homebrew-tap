@@ -19,7 +19,7 @@ Linux:
 brew install symbiosis-lab/tap/moss
 ```
 
-On macOS the name `moss` is both a formula (Linux only) and a cask, so pass `--cask`; a bare `brew install moss` resolves to the formula, which has nothing to install on macOS.
+On macOS the name `moss` is both a formula and a cask, so pass `--cask`. The formula is Linux-only and declines to install on a Mac.
 
 [moss](https://mosspub.com) turns a folder of markdown notes into a website — build, preview and publish from the command line:
 
