@@ -5,7 +5,7 @@ cask "moss" do
   url "https://github.com/Symbiosis-Lab/moss-releases/releases/download/v#{version}/moss_#{version}_universal.dmg"
   name "moss"
   desc "Turn a folder of markdown notes into a website"
-  homepage "https://mosspub.com"
+  homepage "https://mosspub.com/"
 
   livecheck do
     url :url
@@ -14,7 +14,7 @@ cask "moss" do
   end
 
   auto_updates true
-  depends_on macos: ">= :monterey"
+  depends_on macos: :monterey
 
   app "moss.app"
   binary "#{appdir}/moss.app/Contents/MacOS/moss"
