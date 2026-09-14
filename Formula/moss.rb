@@ -24,12 +24,10 @@ class Moss < Formula
   end
 
   def caveats
-    on_linux do
-      <<~EOS
-        moss currently links WebKitGTK at runtime. On Debian/Ubuntu:
-          sudo apt install libwebkit2gtk-4.1-0
-      EOS
-    end
+    <<~EOS
+      moss currently links WebKitGTK at runtime. On Debian/Ubuntu:
+        sudo apt install libwebkit2gtk-4.1-0
+    EOS
   end
 
   test do

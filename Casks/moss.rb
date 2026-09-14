@@ -14,8 +14,8 @@ cask "moss" do
   end
 
   auto_updates true
-  depends_on macos: ">= :monterey"
   conflicts_with formula: "moss"
+  depends_on macos: ">= :monterey"
 
   app "moss.app"
   binary "#{appdir}/moss.app/Contents/MacOS/moss"

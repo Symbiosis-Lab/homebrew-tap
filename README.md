@@ -19,7 +19,7 @@ moss build .
 moss preview .
 ```
 
-On macOS, `moss` installs as the notarized `moss.app` bundle, with the CLI linked into `bin/moss`. If you installed `moss` as a formula before this change, switch over once: `brew uninstall moss && brew install --cask moss`.
+On macOS, `moss` installs as the notarized `moss.app` bundle, with the CLI linked into `bin/moss`. If you installed `moss` as a formula before this change, switch over once: `brew uninstall moss && brew install --cask symbiosis-lab/tap/moss`.
 
 On Linux (x86_64), `moss` installs as a bare CLI binary and currently needs WebKitGTK at runtime: `sudo apt install libwebkit2gtk-4.1-0`.
 
