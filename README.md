@@ -1,5 +1,12 @@
 # Symbiosis Lab Homebrew Tap
 
+Homebrew asks you to trust a third-party tap once before it will load anything from it:
+
+```sh
+brew tap symbiosis-lab/tap
+brew trust symbiosis-lab/tap
+```
+
 macOS:
 
 ```sh
@@ -11,6 +18,8 @@ Linux:
 ```sh
 brew install symbiosis-lab/tap/moss
 ```
+
+On macOS the name `moss` is both a formula (Linux only) and a cask, so pass `--cask`; a bare `brew install moss` resolves to the formula, which has nothing to install on macOS.
 
 [moss](https://mosspub.com) turns a folder of markdown notes into a website — build, preview and publish from the command line:
 

@@ -14,7 +14,6 @@ cask "moss" do
   end
 
   auto_updates true
-  conflicts_with formula: "moss"
   depends_on macos: ">= :monterey"
 
   app "moss.app"
