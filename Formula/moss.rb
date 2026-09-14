@@ -12,12 +12,11 @@ class Moss < Formula
   version "0.14.1"
   license "MIT"
 
-  on_linux do
-    url "https://github.com/Symbiosis-Lab/moss-releases/releases/download/v0.14.1/moss-linux-x86_64"
-    sha256 "bba397a0852c1f7ffdfd04ec690c4d14a136d5d925828c28634065fd9d2e5d7f"
+  url "https://github.com/Symbiosis-Lab/moss-releases/releases/download/v0.14.1/moss-linux-x86_64"
+  sha256 "bba397a0852c1f7ffdfd04ec690c4d14a136d5d925828c28634065fd9d2e5d7f"
 
-    depends_on arch: :x86_64
-  end
+  depends_on :linux
+  depends_on arch: :x86_64
 
   def install
     bin.install "moss-linux-x86_64" => "moss"
