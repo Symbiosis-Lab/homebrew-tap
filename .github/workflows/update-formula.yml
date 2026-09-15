@@ -11,7 +11,7 @@
 # relative to each other.
 #
 # HOW IT FIRES:
-#   repository_dispatch  — the real trigger. moss-releases sends
+#   repository_dispatch  — the real trigger. moss sends
 #                          `moss-release-published` when a draft goes live.
 #   workflow_dispatch    — run it by hand, optionally for a specific version.
 #   schedule (weekly)    — backstop. If the dispatch is ever not wired up, the
@@ -54,7 +54,7 @@ jobs:
             # --exclude-drafts is the point: release.yml uploads assets to a
             # DRAFT, and a draft's download URLs 404 for everyone but us. A
             # formula pointing at one would break every install.
-            VERSION=$(gh release list --repo Symbiosis-Lab/moss-releases \
+            VERSION=$(gh release list --repo Symbiosis-Lab/moss \
               --exclude-drafts --exclude-pre-releases --limit 1 --json tagName \
               -q '.[0].tagName')
             VERSION="${VERSION#v}"
@@ -81,7 +81,7 @@ jobs:
           VERSION: ${{ steps.target.outputs.version }}
         run: |
           set -euo pipefail
-          gh release download "v$VERSION" --repo Symbiosis-Lab/moss-releases \
+          gh release download "v$VERSION" --repo Symbiosis-Lab/moss \
             --dir dl --pattern 'moss-linux-x86_64' \
             --pattern "moss_${VERSION}_universal.dmg" --pattern 'SHA256SUMS'
           LINUX=$(sha256sum dl/moss-linux-x86_64 | cut -d' ' -f1)
@@ -154,5 +154,5 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -am "moss $VERSION" -m "Follows moss-releases v$VERSION. sha256s recomputed from the uploaded Linux binary and DMG and checked against the release's SHA256SUMS; the Linux binary reports $VERSION."
+          git commit -am "moss $VERSION" -m "Follows moss v$VERSION. sha256s recomputed from the uploaded Linux binary and DMG and checked against the release's SHA256SUMS; the Linux binary reports $VERSION."
           git push

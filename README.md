@@ -32,4 +32,4 @@ On macOS, `moss` installs as the notarized `moss.app` bundle, with the CLI linke
 
 On Linux (x86_64), `moss` installs as a bare CLI binary and currently needs WebKitGTK at runtime: `sudo apt install libwebkit2gtk-4.1-0`.
 
-Binaries and the macOS app come from [moss-releases](https://github.com/Symbiosis-Lab/moss-releases).
+Binaries and the macOS app come from [moss](https://github.com/Symbiosis-Lab/moss).
