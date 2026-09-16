@@ -1,12 +1,5 @@
 # Symbiosis Lab Homebrew Tap
 
-Homebrew asks you to trust a third-party tap once before it will load anything from it:
-
-```sh
-brew tap symbiosis-lab/tap
-brew trust symbiosis-lab/tap
-```
-
 macOS:
 
 ```sh
