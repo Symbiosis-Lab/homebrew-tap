@@ -17,7 +17,6 @@ cask "moss" do
   depends_on macos: :monterey
 
   app "moss.app"
-  binary "#{appdir}/moss.app/Contents/MacOS/moss"
 
   zap trash: [
     "~/Library/Application Support/host.moss.publisher",
