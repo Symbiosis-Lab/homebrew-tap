@@ -1,5 +1,5 @@
-# Keeps Formula/moss.rb (Linux) and Casks/moss.rb (macOS) pointing at the
-# newest published moss release.
+# Keeps Formula/moss.rb (the CLI, both platforms) and Casks/moss.rb (the
+# macOS desktop app) pointing at the newest published moss release.
 #
 # WHY THIS EXISTS: the formula was updated by hand, and updating it by hand is
 # seven steps across two repos (version, two URLs, two sha256s you compute by
@@ -59,7 +59,12 @@ jobs:
               -q '.[0].tagName')
             VERSION="${VERSION#v}"
           fi
-          CURRENT=$(grep -oP '^\s*version "\K[^"]+' Formula/moss.rb)
+          # The formula has no top-level `version` — Homebrew scans it from
+          # the url, and a redundant explicit version fails `brew audit
+          # --strict`. Read the current version the same way: off the
+          # Linux url, which is present regardless of which OS block a
+          # human is reading this on.
+          CURRENT=$(grep -oP '(?<=/v)[0-9][0-9.]*(?=/moss-linux-x86_64")' Formula/moss.rb)
           echo "formula is at $CURRENT; newest published release is $VERSION"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           if [ "$CURRENT" = "$VERSION" ]; then
@@ -82,14 +87,19 @@ jobs:
         run: |
           set -euo pipefail
           gh release download "v$VERSION" --repo Symbiosis-Lab/moss \
-            --dir dl --pattern 'moss-linux-x86_64' \
+            --dir dl --pattern 'moss-linux-x86_64' --pattern 'moss-darwin-universal' \
             --pattern "moss_${VERSION}_universal.dmg" --pattern 'SHA256SUMS'
           LINUX=$(sha256sum dl/moss-linux-x86_64 | cut -d' ' -f1)
+          DARWIN=$(sha256sum dl/moss-darwin-universal | cut -d' ' -f1)
           DMG=$(sha256sum "dl/moss_${VERSION}_universal.dmg" | cut -d' ' -f1)
           grep -q "$LINUX  moss-linux-x86_64" dl/SHA256SUMS
+          grep -q "$DARWIN  moss-darwin-universal" dl/SHA256SUMS
           grep -q "$DMG  moss_${VERSION}_universal.dmg" dl/SHA256SUMS
-          echo "linux=$LINUX" >> "$GITHUB_OUTPUT"
-          echo "dmg=$DMG" >> "$GITHUB_OUTPUT"
+          {
+            echo "linux=$LINUX"
+            echo "darwin=$DARWIN"
+            echo "dmg=$DMG"
+          } >> "$GITHUB_OUTPUT"
 
       # The formula's own `test do` asserts this, but it asserts it on the
       # user's machine after the download. Better here.
@@ -108,18 +118,23 @@ jobs:
         env:
           VERSION: ${{ steps.target.outputs.version }}
           LINUX: ${{ steps.sums.outputs.linux }}
+          DARWIN: ${{ steps.sums.outputs.darwin }}
         run: |
           set -euo pipefail
           F=Formula/moss.rb
-          OLD=$(grep -oP '^\s*version "\K[^"]+' "$F")
-          OLD_LINUX=$(grep -A1 'moss-linux-x86_64' "$F" | grep -oP 'sha256 "\K[0-9a-f]{64}')
+          OLD=$(grep -oP '(?<=/v)[0-9][0-9.]*(?=/moss-linux-x86_64")' "$F")
+          # Match each sha256 by the asset name on the line above it, never
+          # by position — the two on_macos/on_linux url+sha256 pairs read
+          # identically apart from that name.
+          OLD_DARWIN=$(grep -A1 'moss-darwin-universal"' "$F" | grep -oP 'sha256 "\K[0-9a-f]{64}')
+          OLD_LINUX=$(grep -A1 'moss-linux-x86_64"' "$F" | grep -oP 'sha256 "\K[0-9a-f]{64}')
           sed -i \
-            -e "s|version \"$OLD\"|version \"$VERSION\"|" \
             -e "s|/v$OLD/moss-|/v$VERSION/moss-|g" \
+            -e "s|$OLD_DARWIN|$DARWIN|" \
             -e "s|$OLD_LINUX|$LINUX|" \
             "$F"
           # Nothing may still point at the version we just left.
-          if grep -q "v$OLD/moss-" "$F" || grep -q "version \"$OLD\"" "$F"; then
+          if grep -q "v$OLD/moss-" "$F"; then
             echo "the rewrite left a v$OLD reference behind:"; grep -n "$OLD" "$F"; exit 1
           fi
           git diff "$F"
@@ -154,5 +169,5 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -am "moss $VERSION" -m "Follows moss v$VERSION. sha256s recomputed from the uploaded Linux binary and DMG and checked against the release's SHA256SUMS; the Linux binary reports $VERSION."
+          git commit -am "moss $VERSION" -m "Follows moss v$VERSION. sha256s recomputed from the uploaded macOS binary, Linux binary and DMG and checked against the release's SHA256SUMS; the Linux binary reports $VERSION."
           git push
