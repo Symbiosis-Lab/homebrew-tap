@@ -54,9 +54,11 @@ jobs:
             # --exclude-drafts is the point: release.yml uploads assets to a
             # DRAFT, and a draft's download URLs 404 for everyone but us. A
             # formula pointing at one would break every install.
+            # Only app tags (vX.Y.Z): moss-core-v… and ffmpeg-… releases live
+            # in the same repo and are often newer.
             VERSION=$(gh release list --repo Symbiosis-Lab/moss \
-              --exclude-drafts --exclude-pre-releases --limit 1 --json tagName \
-              -q '.[0].tagName')
+              --exclude-drafts --exclude-pre-releases --limit 30 --json tagName \
+              -q '[.[].tagName | select(test("^v[0-9]+\\.[0-9]+\\.[0-9]+$"))][0]')
             VERSION="${VERSION#v}"
           fi
           # The formula has no top-level `version` — Homebrew scans it from
