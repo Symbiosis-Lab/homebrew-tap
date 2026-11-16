@@ -1,6 +1,6 @@
 cask "moss" do
-  version "0.15.24"
-  sha256 "0267919ce10bf3590d6bdba186615d75d6492e152d90936524a42a0715448b51"
+  version "0.15.25"
+  sha256 "90d0d917794911007b2c52132a624a2e55ca143409a7772935df6e21254d3e38"
 
   url "https://github.com/Symbiosis-Lab/moss/releases/download/v#{version}/moss_#{version}_universal.dmg"
   name "moss"
