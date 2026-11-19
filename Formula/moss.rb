@@ -27,15 +27,6 @@ class Moss < Formula
     end
   end
 
-  def caveats
-    return unless OS.linux?
-
-    <<~EOS
-      This version of moss links WebKitGTK at runtime. On Debian/Ubuntu:
-        sudo apt install libwebkit2gtk-4.1-0
-    EOS
-  end
-
   test do
     assert_match version.to_s, shell_output("#{bin}/moss --version")
   end
