@@ -10,11 +10,11 @@ class Moss < Formula
   license "MIT"
 
   if OS.mac?
-    url "https://github.com/Symbiosis-Lab/moss/releases/download/v0.15.26/moss-darwin-universal"
-    sha256 "0153e32e88cd455a072534f2c4bc8aa6fd9ff81a10e05301599a017ccb44ea60"
+    url "https://github.com/Symbiosis-Lab/moss/releases/download/v0.15.27/moss-darwin-universal"
+    sha256 "410e4c570e2b600c22e9c0f27d6112b08587ec42a89e9e8ea283d4e2760a87e9"
   else
-    url "https://github.com/Symbiosis-Lab/moss/releases/download/v0.15.26/moss-linux-x86_64"
-    sha256 "712999b8789e7fbd52164e3ff7b0716ef9f743407b8c4ee244eb597dde195c02"
+    url "https://github.com/Symbiosis-Lab/moss/releases/download/v0.15.27/moss-linux-x86_64"
+    sha256 "d444fd9fa115965c114a43495a9d661dfb16a49c1bd9a70acbe2e9e1e467c743"
 
     depends_on arch: :x86_64
   end
