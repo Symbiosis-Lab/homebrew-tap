@@ -29,6 +29,10 @@ on:
       version:
         description: "moss version without the leading v (default: newest published release)"
         required: false
+      dry_run:
+        description: "Download, verify and write the formula and cask, but commit nothing"
+        type: boolean
+        default: false
   schedule:
     - cron: "17 6 * * 1"
 
@@ -138,7 +142,7 @@ jobs:
           git diff
 
       - name: Commit
-        if: steps.target.outputs.changed == 'true'
+        if: steps.target.outputs.changed == 'true' && inputs.dry_run != true
         env:
           VERSION: ${{ steps.target.outputs.version }}
         run: |
